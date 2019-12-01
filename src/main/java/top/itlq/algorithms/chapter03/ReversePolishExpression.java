@@ -1,4 +1,4 @@
-package top.itlq.algorithms.binaryTree.polish;
+package top.itlq.algorithms.chapter03;
 
 import java.util.LinkedList;
 import java.util.Queue;

@@ -1,10 +1,11 @@
-package top.itlq.algorithms.binaryTree.polish;
+package top.itlq.algorithms.chapter04;
 
 import java.util.LinkedList;
 import java.util.Stack;
 
 /**
- * 将前缀、后缀表达式转换为树，树不同方式遍历分别得到前缀、后缀表达式
+ * 将前缀、后缀表达式转换为树，树不同方式遍历分别得到中缀、前缀、后缀表达式
+ * 使用到栈，树的遍历
  */
 
 public class ExpressionTree {
@@ -20,6 +21,9 @@ public class ExpressionTree {
         // 由树得到后缀表达式；
         LinkedList<String> reversePolishExpression = searchTreeNodesBackWard(tree2,new LinkedList<>());
         System.out.println(reversePolishExpression);
+        // 由树得到中缀表达式；
+        LinkedList<String> expression = searchTreeNodesMiddle(tree2,new LinkedList<>());
+        System.out.println(expression);
     }
 
     /**
@@ -78,6 +82,7 @@ public class ExpressionTree {
     /**
      * 递归后序遍历（深度遍历）树产生后缀表达式
      * @param treeNode
+     * @param treeNode
      * @param list
      * @return
      */
@@ -91,18 +96,51 @@ public class ExpressionTree {
         list.add(treeNode.element.toString());
         return list;
     }
-}
 
-/**
- * 树节点
- */
-class TreeNode {
-    public TreeNode(Object element,TreeNode left,TreeNode right){
-        this.element = element;
-        this.left = left;
-        this.right = right;
+    /**
+     * 递归中序遍历（深度遍历）树产生中缀表达式
+     * @param treeNode
+     * @param treeNode
+     * @param list
+     * @return
+     */
+    public static LinkedList<String> searchTreeNodesMiddle(TreeNode treeNode, LinkedList<String> list){
+        if(treeNode == null){
+            return list;
+        }
+        if(treeNode.left != null){
+            if(treeNode.left.left != null){
+                list.add("(");
+            }
+            searchTreeNodesMiddle(treeNode.left,list);
+            if(treeNode.left.left != null){
+                list.add(")");
+            }
+        }
+        list.add(treeNode.element.toString());
+        if(treeNode.right != null ){
+            if(treeNode.right.left != null){
+                list.add("(");
+            }
+            searchTreeNodesMiddle(treeNode.right,list);
+            if(treeNode.right.left != null){
+                list.add(")");
+            }
+        }
+        return list;
     }
-    public Object element;
-    public TreeNode left;
-    public TreeNode right;
+
+    /**
+     * 树节点
+     */
+    public static class TreeNode {
+        public TreeNode(Object element,TreeNode left,TreeNode right){
+            this.element = element;
+            this.left = left;
+            this.right = right;
+        }
+        public Object element;
+        public TreeNode left;
+        public TreeNode right;
+    }
 }
