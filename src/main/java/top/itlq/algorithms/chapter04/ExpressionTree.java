@@ -12,7 +12,7 @@ public class ExpressionTree {
     public static void main(String[]args){
         //2+3*4
         // 由后缀表达式得到树
-        TreeNode tree1 = reversePolishExpressionToTree("2,3,4,*,+".split(","));
+        TreeNode tree1 = reversePolishExpressionToTree("2,3,4,*,+,-".split(","));
         // 由树得到前缀表达式；
         LinkedList<String> polishExpression = searchTreeNodesForward(tree1,new LinkedList<>());
         System.out.println(polishExpression);
@@ -87,12 +87,11 @@ public class ExpressionTree {
      * @return
      */
     public static LinkedList<String> searchTreeNodesBackWard(TreeNode treeNode, LinkedList<String> list){
-        if(treeNode.left != null){
-            searchTreeNodesBackWard(treeNode.left,list);
+        if(treeNode == null){
+            return list;
         }
-        if(treeNode.right != null ){
-            searchTreeNodesBackWard(treeNode.right,list);
-        }
+        searchTreeNodesBackWard(treeNode.left,list);
+        searchTreeNodesBackWard(treeNode.right,list);
         list.add(treeNode.element.toString());
         return list;
     }
@@ -108,23 +107,31 @@ public class ExpressionTree {
         if(treeNode == null){
             return list;
         }
-        if(treeNode.left != null){
-            if(treeNode.left.left != null){
-                list.add("(");
+        if(treeNode.left == null && treeNode.right == null){
+            list.add(treeNode.element.toString());
+        }else{
+            if(treeNode.left != null){
+                if(treeNode.left.left != null){
+                    list.add("(");
+                }
+                searchTreeNodesMiddle(treeNode.left,list);
+                if(treeNode.left.left != null){
+                    list.add(")");
+                }
+            }else{
+                list.add("0");
             }
-            searchTreeNodesMiddle(treeNode.left,list);
-            if(treeNode.left.left != null){
-                list.add(")");
-            }
-        }
-        list.add(treeNode.element.toString());
-        if(treeNode.right != null ){
-            if(treeNode.right.left != null){
-                list.add("(");
-            }
-            searchTreeNodesMiddle(treeNode.right,list);
-            if(treeNode.right.left != null){
-                list.add(")");
+            list.add(treeNode.element.toString());
+            if(treeNode.right != null ){
+                if(treeNode.right.left != null){
+                    list.add("(");
+                }
+                searchTreeNodesMiddle(treeNode.right,list);
+                if(treeNode.right.left != null){
+                    list.add(")");
+                }
+            }else{
+                list.add("0");
             }
         }
         return list;
