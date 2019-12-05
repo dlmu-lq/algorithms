@@ -142,9 +142,7 @@ public class BinarySearchTree<T> {
      * @return
      */
     private BinaryNode<T> removeAndSaveMin(BinaryNode<T> tree, BinaryNode<T> minValTree){
-        if(tree == null){
-            return null;
-        }else if(tree.left != null){
+        if(tree.left != null){
             // 未找到其最小值；在其左子树中继续找，并返回自己；
             tree.left = removeAndSaveMin(tree.left, minValTree);
             return tree;
